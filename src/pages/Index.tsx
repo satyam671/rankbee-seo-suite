@@ -1,12 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Header } from "@/components/Header";
+import { Hero } from "@/components/Hero";
+import { ToolsGrid } from "@/components/ToolsGrid";
+import { Footer } from "@/components/Footer";
+import { ToolRouter } from "@/components/ToolRouter";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+  const [selectedTool, setSelectedTool] = useState<string | null>(null);
+
+  const handleToolSelect = (toolId: string) => {
+    setSelectedTool(toolId);
+  };
+
+  const handleBackToHome = () => {
+    setSelectedTool(null);
+  };
+
+  // If a tool is selected, show the tool interface
+  if (selectedTool) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <ToolRouter selectedTool={selectedTool} onBackToHome={handleBackToHome} />
       </div>
+    );
+  }
+
+  // Otherwise, show the main homepage
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main>
+        <Hero />
+        <ToolsGrid onToolSelect={handleToolSelect} />
+      </main>
+      <Footer />
     </div>
   );
 };
