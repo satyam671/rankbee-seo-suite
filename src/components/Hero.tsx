@@ -32,11 +32,30 @@ export const Hero = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button variant="hero" size="lg" className="group">
+              <Button 
+                variant="hero" 
+                size="lg" 
+                className="group"
+                onClick={() => {
+                  const toolsSection = document.getElementById('tools');
+                  if (toolsSection) {
+                    toolsSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 Start Analyzing
               </Button>
-              <Button variant="outline" size="lg">
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => {
+                  const toolsSection = document.getElementById('tools');
+                  if (toolsSection) {
+                    toolsSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 <BarChart3 className="w-5 h-5" />
                 View Tools
               </Button>

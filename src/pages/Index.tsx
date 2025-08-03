@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { ToolsGrid } from "@/components/ToolsGrid";
+import { ToolsGrid } from "@/components/ToolsGridEnhanced";
+import { SEOImportanceSection } from "@/components/SEOImportanceSection";
+import { BlogsSection } from "@/components/BlogsSection";
 import { Footer } from "@/components/Footer";
 import { ToolRouter } from "@/components/ToolRouter";
 
@@ -32,7 +34,11 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <SEOImportanceSection />
         <ToolsGrid onToolSelect={handleToolSelect} />
+        <section id="blogs">
+          <BlogsSection />
+        </section>
       </main>
       <Footer />
     </div>

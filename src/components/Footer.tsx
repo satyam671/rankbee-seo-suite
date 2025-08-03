@@ -16,6 +16,7 @@ export const Footer = () => {
 
   const quickLinks = [
     { title: "About Us", href: "#about" },
+    { title: "Blogs", href: "#blogs" },
     { title: "Disclaimer", href: "#disclaimer" },
     { title: "Privacy Policy", href: "#privacy" },
     { title: "Terms of Service", href: "#terms" },
@@ -91,18 +92,20 @@ export const Footer = () => {
 
         {/* Quick Links Section */}
         <div className="py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-6">
-              <span className="text-sm font-medium text-foreground">Quick Links:</span>
-              {quickLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {link.title}
-                </a>
-              ))}
+          <div className="flex flex-col items-center justify-center gap-6">
+            <div className="text-center">
+              <span className="text-sm font-medium text-foreground mb-4 block">Quick Links</span>
+              <div className="flex flex-wrap justify-center items-center gap-6">
+                {quickLinks.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.title}
+                  </a>
+                ))}
+              </div>
             </div>
             <Button variant="outline" size="sm">
               <Mail className="w-4 h-4" />
