@@ -1,1 +1,10 @@
 project_id = "kxndfqlmzyjewoflknzh"
+
+[functions.keyword-research]
+verify_jwt = false
+
+[functions.domain-analysis]
+verify_jwt = false
+
+[functions.keyword-density]
+verify_jwt = false

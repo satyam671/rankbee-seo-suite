@@ -36,112 +36,99 @@ export interface BacklinkData {
 export class SEOService {
   private static baseUrl = 'https://kxndfqlmzyjewoflknzh.supabase.co/functions/v1';
 
-  // Real keyword research using multiple data sources
+  // Real keyword research using Supabase Edge Functions
   static async getKeywordSuggestions(
     keyword: string, 
     country: string = 'US',
-    limit: number = 50
+    limit: number = 100
   ): Promise<KeywordData[]> {
     try {
-      // Use Google Suggest API and other free sources
-      const suggestions = await this.fetchGoogleSuggestions(keyword);
-      const keywordData: KeywordData[] = [];
+      const response = await fetch(`${this.baseUrl}/keyword-research`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          keyword,
+          country,
+          limit
+        })
+      });
 
-      for (const suggestion of suggestions.slice(0, limit)) {
-        const volume = await this.estimateSearchVolume(suggestion, country);
-        const difficulty = await this.estimateKeywordDifficulty(suggestion);
-        const cpc = await this.estimateCPC(suggestion);
-        
-        keywordData.push({
-          keyword: suggestion,
-          searchVolume: volume,
-          difficulty,
-          trend: Math.random() > 0.5 ? (Math.random() > 0.5 ? 'up' : 'down') : 'stable',
-          cpc,
-          competition: difficulty < 30 ? 'low' : difficulty < 70 ? 'medium' : 'high',
-          country
-        });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      return keywordData.sort((a, b) => b.searchVolume - a.searchVolume);
+      const data = await response.json();
+      return data.keywords || [];
     } catch (error) {
       console.error('Error fetching keyword suggestions:', error);
       return this.getFallbackKeywords(keyword, country, limit);
     }
   }
 
-  // Real domain authority calculation based on multiple factors
+  // Real domain analysis using Supabase Edge Functions
   static async analyzeDomain(domain: string): Promise<DomainMetrics> {
     try {
-      const cleanDomain = domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-      
-      // Scrape actual data from the domain
-      const pageData = await this.scrapeDomainData(cleanDomain);
-      const backlinksData = await this.analyzeBacklinks(cleanDomain);
-      const technicalData = await this.analyzeTechnicalSEO(cleanDomain);
-      
-      return {
-        domain: cleanDomain,
-        domainAuthority: this.calculateDomainAuthority(pageData, backlinksData),
-        pageAuthority: this.calculatePageAuthority(pageData),
-        backlinks: backlinksData.totalBacklinks,
-        referringDomains: backlinksData.referringDomains,
-        organicTraffic: await this.estimateOrganicTraffic(cleanDomain),
-        organicKeywords: await this.estimateOrganicKeywords(cleanDomain),
-        healthScore: technicalData.healthScore,
-        redirects: technicalData.redirects,
-        brokenLinks: technicalData.brokenLinks,
-        blockedPages: technicalData.blockedPages
-      };
+      const response = await fetch(`${this.baseUrl}/domain-analysis`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ domain })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data.metrics;
     } catch (error) {
       console.error('Error analyzing domain:', error);
       return this.getFallbackDomainMetrics(domain);
     }
   }
 
-  // Real keyword density analysis
-  static async analyzeKeywordDensity(url: string, targetKeyword: string): Promise<{
+  // Real keyword density analysis using Supabase Edge Functions
+  static async analyzeKeywordDensity(url: string, targetKeyword: string, content?: string): Promise<{
     density: number;
     totalWords: number;
     keywordCount: number;
     suggestions: string[];
     relatedKeywords: { keyword: string; count: number; density: number }[];
+    seoScore: number;
+    improvements: string[];
   }> {
     try {
-      const response = await axios.get(`https://kxndfqlmzyjewoflknzh.supabase.co/functions/v1/scrape-page`, {
-        params: { url }
+      const response = await fetch(`${this.baseUrl}/keyword-density`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          url,
+          targetKeyword,
+          content
+        })
       });
 
-      const content = response.data.content;
-      const words = content.toLowerCase().split(/\s+/);
-      const totalWords = words.length;
-      
-      const keywordRegex = new RegExp(targetKeyword.toLowerCase(), 'g');
-      const keywordMatches = content.toLowerCase().match(keywordRegex) || [];
-      const keywordCount = keywordMatches.length;
-      const density = (keywordCount / totalWords) * 100;
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
 
-      // Find related keywords
-      const relatedKeywords = this.findRelatedKeywords(content, targetKeyword);
-      
-      // Generate suggestions
-      const suggestions = this.generateDensitySuggestions(density, keywordCount, totalWords);
-
-      return {
-        density: Math.round(density * 100) / 100,
-        totalWords,
-        keywordCount,
-        suggestions,
-        relatedKeywords
-      };
+      const data = await response.json();
+      return data;
     } catch (error) {
       console.error('Error analyzing keyword density:', error);
       return {
         density: 0,
         totalWords: 0,
         keywordCount: 0,
-        suggestions: ['Unable to analyze content'],
-        relatedKeywords: []
+        suggestions: ['Unable to analyze content. Please check the URL or try again.'],
+        relatedKeywords: [],
+        seoScore: 0,
+        improvements: ['Content analysis failed. Please verify the URL is accessible.']
       };
     }
   }

@@ -19,7 +19,47 @@ const countries = [
   { code: 'ES', name: 'Spain', flag: '🇪🇸' },
   { code: 'IT', name: 'Italy', flag: '🇮🇹' },
   { code: 'BR', name: 'Brazil', flag: '🇧🇷' },
-  { code: 'IN', name: 'India', flag: '🇮🇳' }
+  { code: 'IN', name: 'India', flag: '🇮🇳' },
+  { code: 'JP', name: 'Japan', flag: '🇯🇵' },
+  { code: 'KR', name: 'South Korea', flag: '🇰🇷' },
+  { code: 'CN', name: 'China', flag: '🇨🇳' },
+  { code: 'RU', name: 'Russia', flag: '🇷🇺' },
+  { code: 'MX', name: 'Mexico', flag: '🇲🇽' },
+  { code: 'AR', name: 'Argentina', flag: '🇦🇷' },
+  { code: 'NL', name: 'Netherlands', flag: '🇳🇱' },
+  { code: 'BE', name: 'Belgium', flag: '🇧🇪' },
+  { code: 'CH', name: 'Switzerland', flag: '🇨🇭' },
+  { code: 'AT', name: 'Austria', flag: '🇦🇹' },
+  { code: 'SE', name: 'Sweden', flag: '🇸🇪' },
+  { code: 'NO', name: 'Norway', flag: '🇳🇴' },
+  { code: 'DK', name: 'Denmark', flag: '🇩🇰' },
+  { code: 'FI', name: 'Finland', flag: '🇫🇮' },
+  { code: 'PL', name: 'Poland', flag: '🇵🇱' },
+  { code: 'CZ', name: 'Czech Republic', flag: '🇨🇿' },
+  { code: 'HU', name: 'Hungary', flag: '🇭🇺' },
+  { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
+  { code: 'GR', name: 'Greece', flag: '🇬🇷' },
+  { code: 'TR', name: 'Turkey', flag: '🇹🇷' },
+  { code: 'IL', name: 'Israel', flag: '🇮🇱' },
+  { code: 'AE', name: 'UAE', flag: '🇦🇪' },
+  { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦' },
+  { code: 'ZA', name: 'South Africa', flag: '🇿🇦' },
+  { code: 'NG', name: 'Nigeria', flag: '🇳🇬' },
+  { code: 'EG', name: 'Egypt', flag: '🇪🇬' },
+  { code: 'TH', name: 'Thailand', flag: '🇹🇭' },
+  { code: 'MY', name: 'Malaysia', flag: '🇲🇾' },
+  { code: 'SG', name: 'Singapore', flag: '🇸🇬' },
+  { code: 'ID', name: 'Indonesia', flag: '🇮🇩' },
+  { code: 'PH', name: 'Philippines', flag: '🇵🇭' },
+  { code: 'VN', name: 'Vietnam', flag: '🇻🇳' },
+  { code: 'BD', name: 'Bangladesh', flag: '🇧🇩' },
+  { code: 'PK', name: 'Pakistan', flag: '🇵🇰' },
+  { code: 'LK', name: 'Sri Lanka', flag: '🇱🇰' },
+  { code: 'NZ', name: 'New Zealand', flag: '🇳🇿' },
+  { code: 'CL', name: 'Chile', flag: '🇨🇱' },
+  { code: 'CO', name: 'Colombia', flag: '🇨🇴' },
+  { code: 'PE', name: 'Peru', flag: '🇵🇪' },
+  { code: 'VE', name: 'Venezuela', flag: '🇻🇪' }
 ];
 
 export const KeywordResearchTool = () => {
@@ -43,11 +83,11 @@ export const KeywordResearchTool = () => {
     setLoading(true);
     
     try {
-      const keywordData = await SEOService.getKeywordSuggestions(keyword.trim(), country, 50);
+      const keywordData = await SEOService.getKeywordSuggestions(keyword.trim(), country, 100);
       setSuggestions(keywordData);
       toast({
         title: "Success",
-        description: `Found ${keywordData.length} keyword suggestions with real search data`,
+        description: `Found ${keywordData.length} keyword suggestions with real-time web scraping`,
       });
     } catch (error) {
       toast({
@@ -130,7 +170,7 @@ export const KeywordResearchTool = () => {
         <CardHeader>
           <CardTitle>Enter Your Seed Keyword</CardTitle>
           <CardDescription>
-            Get up to 50 keyword suggestions with real search volumes, difficulty scores, and CPC data
+            Get up to 100 keyword suggestions with real search volumes, difficulty scores, and CPC data
           </CardDescription>
         </CardHeader>
         <CardContent>
