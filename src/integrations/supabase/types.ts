@@ -14,13 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      domain_analysis_cache: {
+        Row: {
+          created_at: string
+          domain: string
+          expires_at: string
+          health_score: number
+          id: string
+          metrics: Json
+        }
+        Insert: {
+          created_at?: string
+          domain: string
+          expires_at?: string
+          health_score?: number
+          id?: string
+          metrics: Json
+        }
+        Update: {
+          created_at?: string
+          domain?: string
+          expires_at?: string
+          health_score?: number
+          id?: string
+          metrics?: Json
+        }
+        Relationships: []
+      }
+      keyword_research_cache: {
+        Row: {
+          country: string
+          created_at: string
+          expires_at: string
+          id: string
+          keyword: string
+          suggestions: Json
+        }
+        Insert: {
+          country?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          keyword: string
+          suggestions: Json
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          keyword?: string
+          suggestions?: Json
+        }
+        Relationships: []
+      }
+      user_searches: {
+        Row: {
+          created_at: string
+          id: string
+          results_count: number | null
+          search_query: string
+          search_type: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          results_count?: number | null
+          search_query: string
+          search_type: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          results_count?: number | null
+          search_query?: string
+          search_type?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_expired_cache: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
